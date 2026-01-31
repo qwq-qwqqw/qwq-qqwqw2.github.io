@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>炫彩卡牌</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+        body{
+            min-height: 100vh;
+            background-color: black;
+            background-image: url('2.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        body::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .top-text{
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            text-align: center;
+        }
+        .top-text h1{
+            color: #fff;
+            font-size: 36px;
+            text-shadow: 0 0 15px rgba(160, 160, 243, 0.8);
+            letter-spacing: 2px;
+        }
+        .container{
+            position:relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 160px);
+            z-index: 2;
+        }
+        .container .card{
+            position: absolute; /* 绝对定位 → 所有卡牌堆叠在同一位置 */
+            width: 240px;
+            height: 360px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: 700;
+            border: 10px solid rgb(208, 189, 227);
+            transition: all 0.5s ease;
+            transform-origin: 50% 100%; /* 旋转中心完全保留原始值：底部中点 */
+            filter: hue-rotate(calc(var(--i)*60deg));
+            /* box-shadow: 0 15px 50px rgba(0,0,0,0.15); */
+            cursor: pointer;
+            user-select: none;
+
+            /* 图片背景核心样式（仅新增，不影响堆叠） */
+            background-size: cover;
+            background-position: center;
+            /* 取消遮罩层的强覆盖，让堆叠的图片边缘可见 */
+            background-color: transparent;
+        }
+
+        /* 每张卡牌独立图片背景 → 堆叠时能看到边缘差异 */
+        .card:nth-child(1) { background-image: url('zuo.jpg'); }
+        .card:nth-child(2) { background-image: url('zuo.jpg'); }
+        .card:nth-child(3) { background-image: url('zuo.jpg'); }
+        .card:nth-child(4) { background-image: url('zuo.jpg'); }
+        .card:nth-child(5) { background-image: url('zuo.jpg'); }
+
+        /* 文字样式优化：保证堆叠时文字不突兀，展开后清晰 */
+        .card a{
+            color: rgba(255,255,255,0.1); /* 堆叠时文字几乎透明 */
+            text-decoration: none;
+            transition: all 0.5s ease;
+            text-shadow: 0 0 5px #000;
+        }
+
+        /* 悬停展开：和原始代码完全一致的位移/旋转逻辑 */
+        .container:hover .card{
+            transform: rotate(calc(var(--i)*5deg)) translate(calc(var(--i)*150px), -50px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+        }
+        .container:hover .card a{
+            color: rgba(255,255,255,0.8); /* 展开后文字清晰 */
+        }
+
+        /* 点击升起：和原始代码完全一致的效果 */
+        .container .card.active{
+            transform: rotate(calc(var(--i)*5deg)) translate(calc(var(--i)*150px), -120px);
+            box-shadow: 0 25px 60px rgba(255, 255, 255, 0.2), 0 15px 50px rgba(0,0,0,0.35);
+            z-index: 10;
+        }
+        .container .card.active a{
+            color: #fff;
+            font-weight: 900;
+        }
+
+        /* 底部链接：完全保留原始样式 */
+        .bottom-link{
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            padding: 12px 30px;
+            background-color: rgba(160, 160, 243, 0.9);
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .bottom-link a{
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .bottom-link:hover{
+            background-color: rgb(160, 160, 243);
+            transform: translateX(-50%) translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-text">
+        <h1>请选择你的喵皇</h1>
+    </div>
+
+    <!-- 卡牌结构完全原始：绝对定位 → 堆叠 -->
+    <div class="container">
+        <div class="card" style="--i:-2">
+            <a href="../Flip Blockbook.js/index.html" target="_blank">To bro张越</a>
+        </div>
+        <div class="card" style="--i:-1">
+            <a href="../Flip Blockbook.js/index.html" target="_blank">亲爱的张越宝贝</a>
+        </div>
+        <div class="card" style="--i:0">
+            <a href="../Flip Blockbook.js/index.html" target="_blank">亲爱的宿舍长</a>
+        </div>
+        <div class="card" style="--i:1">
+            <a href="../Flip Blockbook.js/index.html" target="_blank">张越宝贝</a>
+        </div>
+        <div class="card" style="--i:2">
+            <a href="../starsky/index.html" target="_blank">张越</a>
+        </div>
+    </div>
+
+    <div class="bottom-link">
+        <a href="../song/index.html" target="_self">前往下一站</a>
+    </div>
+
+    <script>
+        // 交互脚本完全原始
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'A') {
+                    card.classList.toggle('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蛋糕</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 中间层叠帷幔：3层（后→前），被左右遮挡 -->
+    <div class="curtain center-curtain curtain-1"></div>
+    <div class="curtain center-curtain curtain-2"></div>
+    <div class="curtain center-curtain curtain-3"></div>
+
+    <!-- 左侧层叠帷幔：3层（后→前），遮挡中间左侧 -->
+    <div class="curtain left-curtain curtain-1"></div>
+    <div class="curtain left-curtain curtain-2"></div>
+    <div class="curtain left-curtain curtain-3"></div>
+
+    <!-- 右侧层叠帷幔：3层（后→前），遮挡中间右侧 -->
+    <div class="curtain right-curtain curtain-1"></div>
+    <div class="curtain right-curtain curtain-2"></div>
+    <div class="curtain right-curtain curtain-3"></div>
+
+    <div class="cow"> <!-- 蛋糕主体容器 -->
+        <div class="head"> <!-- 蜡烛容器（左右各1根） -->
+            <div class="face"></div> <!-- 左侧蜡烛火焰 -->
+            <div class="flame-right"></div> <!-- 右侧蜡烛火焰 -->
+        </div>
+        <div class="leg f l"></div> <!-- 蛋糕装饰斑点1 -->
+        <div class="leg f r"></div> <!-- 蛋糕装饰斑点2 -->
+        <div class="leg b l"></div> <!-- 蛋糕装饰斑点3 -->
+        <div class="leg b r"></div> <!-- 蛋糕装饰斑点4 -->
+        <div class="tail"></div> <!-- 蛋糕顶部小装饰 -->
+    </div>
+
+    <div class="text-box"> <!-- 404文字容器（延迟显示） -->
+        <h1>蛋糕</h1>
+        <p>蛋糕从坑里跳出来啦</p>
+    </div>
+    <a href="../letter/letter.html" class="home-btn">要写下你的新年愿望吗</a> <!-- 首页按钮（延迟显示） -->
+</body>
+</html>

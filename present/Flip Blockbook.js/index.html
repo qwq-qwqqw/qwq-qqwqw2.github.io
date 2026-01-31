@@ -1,0 +1,287 @@
+ 
+<html>
+ 
+<head>
+        <title>Moleskine Notebook with jQuery Booklet</title>
+         
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+    
+    
+
+ <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700i" rel="stylesheet">
+ 
+ 
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+		<script src="booklet/jquery.easing.1.3.js" type="text/javascript"></script>
+		<script src="booklet/jquery.booklet.1.1.0.min.js" type="text/javascript"></script>
+
+		<link href="booklet/jquery.booklet.1.1.0.css" type="text/css" rel="stylesheet" media="screen" />
+		 
+		 
+		 <style>
+         
+              *{
+	margin:0;
+	padding:0;
+}
+body{
+	background:#eba426;	
+	color:#444;
+	font-size:12px;
+	color: #333;
+    font-family: 'Oswald', sans-serif;
+}
+ 
+ 
+.booklet           {
+	width:900px;
+	height:607px;
+	position:relative;
+	margin:0 auto 10px;
+	-moz-box-shadow:0px 0px 1px #fff;
+	-webkit-box-shadow:0px 0px 1px #fff;
+	box-shadow:0px 0px 1px #fff;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+}
+.booklet .b-wrap-left  {
+	background:#fff url(images/left_bg.jpg) no-repeat top left;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-topleft:10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.booklet .b-wrap-right {
+	background:#efefef url(images/right_bg.jpg) no-repeat top left;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomright: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.booklet .b-counter {
+	bottom:10px;
+	position:absolute;
+	display:block;
+	width:90%;
+	height:20px;
+	border-top:1px solid #ddd;
+	color:#222;
+	text-align:center;
+	font-size:12px;
+	padding:5px 0 0;
+	background:transparent;
+	-moz-box-shadow:0px -1px 1px #fff;
+	-webkit-box-shadow:0px -1px 1px #fff;
+	box-shadow:0px -1px 1px #fff;
+	opacity:0.8;
+}
+.book_wrapper{
+	margin:0 auto;
+	padding-top:50px;
+	width:905px;
+	height:540px;
+	position:relative;
+	background:transparent url(images/bg.png) no-repeat 9px 27px;
+}
+.book_wrapper h1{
+	color:orange;
+	margin:5px 5px 5px 15px;
+	font-size:24px;
+	background:transparent url(images/h1.png) no-repeat bottom left;
+	padding-bottom:7px;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+.book_wrapper p{
+	font-size:15px;
+	margin:5px 5px 5px 15px;
+}
+.book_wrapper a.article,
+.book_wrapper a.demo{
+	background:transparent url(images/circle.png) no-repeat 50% 0px;
+	display:block;
+	width:95px;
+	height:41px;
+	text-decoration:none;
+	outline:none;
+	font-size:16px;
+	color:#555;
+	float:left;
+	line-height:41px;
+	padding-left:47px;
+}
+.book_wrapper a.demo{
+	margin-left:50px;
+}
+.book_wrapper a.article:hover,
+.book_wrapper a.demo:hover{
+	background-position:50% -41px;
+	color:#13386a;
+}
+.book_wrapper img{
+	margin:10px 0px 5px 35px;
+	width:300px;
+	padding:4px;
+	border:1px solid #ddd;
+	-moz-box-shadow:1px 1px 1px #fff;
+	-webkit-box-shadow:1px 1px 1px #fff;
+	box-shadow:1px 1px 1px #fff;
+}
+.booklet .b-wrap-right img{
+	border:1px solid #E6E3C2;
+}
+a#next_page_button,
+a#prev_page_button{
+	display:none;
+	position:absolute;
+	width:41px;
+	height:40px;
+	cursor:pointer;
+	margin-top:-20px;
+	top:50%;
+	background:transparent url(images/buttons.png) no-repeat 0px -40px;
+}
+a#prev_page_button{
+	left:-30px;
+}
+a#next_page_button{
+	right:-30px;
+	background-position:-41px -40px;
+}
+a#next_page_button:hover{
+	background-position:-41px 0px;
+}
+a#prev_page_button:hover{
+	background-position:0px 0px;
+}
+ 
+    
+    
+         </style>
+		 
+    </head>
+    <body>
+    <br><br><br><br><br>
+		 
+		<div class="book_wrapper">
+			<a id="next_page_button"></a>
+			<a id="prev_page_button"></a>
+			 
+			<div id="mybook" style="display:none;">
+				<div class="b-load">
+					<div>
+						<img src="images/1.jpg" alt=""/>
+						<h1>To bro张越</h1>
+						<p>生日快乐！恭喜你成功解锁19周岁，越来越成熟啦[坏笑]。很开心能在大学遇见这么好的你，一学期相处下来，发现我们有好多相似点——爱拼乐高、爱看探案剧，连笑点都很合拍。你做事细心认真、待人真诚大方，责任心强又有超棒的组织能力，总能想到别人忽略的细节，贼靠谱的！</p>
+						<a href="" class="demo">崔乃鑫</a>
+					</div>
+					<div>
+						<img src="images/2.jpg" alt="" />
+						<h1></h1>
+						<p>  还记得高数期末考完，我们在好想来蹲了半天，就为了找一把合心意的玩具枪，现在想起来还觉得又好笑又珍贵～</p>
+					</div>
+					<div>
+						<img src="images/3.jpg" alt="" />
+						<h1></h1>
+						<p> 新的一岁，希望你先好好爱自己，把自己放在第一位；有不开心的事，随时找我或朋友们吐槽，别一个人扛。愿你踏入成人世界，少些坎坷波折，多些顺遂好运；学业上一路绿灯，步步进阶，所有努力都有回响，所有期待都
+						能兑现✨</p>
+					</div>
+					<div>
+						<img src="images/4.jpg" alt="" />
+						<h1>亲爱的张越宝贝</h1>
+						<p>生日快乐呀！愿你新的一岁，日子有光，心里有暖，平安喜乐常伴左右，所有美好和期待都如约而至。吃好喝好，烦恼全跑，只管朝着自己喜欢的方向走，永远做鲜活又快乐的自己。</p>
+						<a href="" class="demo">聂雨菲</a>
+					</div>
+					<div>
+						<img src="images/5.jpg" alt="" />
+						<h1>亲爱的宿舍长</h1>
+						<p>生日快乐呀！刚踏入大学校园，很庆幸能和你分到同一个宿舍，多亏有你细心打理宿舍大小事，默默为大家付出。愿你在崭新的大学生活里收获满满惊喜，学业顺心、好友相伴，每天都被好心情围绕，笑容永远明媚动人，新的一岁万事胜意，喜乐常伴呀～</p>
+						<a href="" class="demo">辛紫涵</a>
+					</div>
+					<div>
+						<img src="images/6.jpg" alt="" />
+						<h1>亲爱的张越宝贝</h1>
+						<p>不知不觉我们认识五个月啦.很幸运有你这个好朋友.你心思细腻，待人真诚，作为宿舍长，你可以细腻的体察到每个人的优点，元旦时的小作文仍旧让我记忆犹新，对我来说有时就像大姐姐一样对我关怀备至</p>
+						<p></p>
+						<a href="" class="demo">左笑苒</a>
+					</div>
+					<div>
+						<img src="images/7.jpg" alt="" />
+						<h1></h1>
+						<p>有时也和乃心一样有着童趣的一面（当然，如果你们不天天拿着枪指着我，我还是很欣赏这份童趣的），不过无论如何，还是很幸运交到你这样的朋友</p>
+					</div>
+					<div>
+						<img src="images/8.jpg" alt="" />
+						<h1></h1>
+						<p>今天是你的生日，我想了很多 该祝你什么呢？感觉那么多美好的词汇都配不上我们张越</p>
+					</div>
+					<div>
+						<img src="images/9.jpg" alt="" />
+						<h1></h1>
+						<p>但还是要祝福一下的，所以我希望我的宿舍长大人每天开开心心，活力满满，不论是不是很开心，还是受点委屈，亦或者感到压力， 一定要记住多多爱自己一点，我们都陪在你的身边(•̀⌄•́)</p>
+					</div>
+					<div>
+						
+					</div>
+					<div>
+						
+					</div>
+					<div>
+						
+					</div>
+					<div>
+						
+					</div>
+					<div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+        
+        <script type="text/javascript">
+			$(function() {
+				var $mybook 		= $('#mybook');
+				var $bttn_next		= $('#next_page_button');
+				var $bttn_prev		= $('#prev_page_button');
+				var $loading		= $('#loading');
+				var $mybook_images	= $mybook.find('img');
+				var cnt_images		= $mybook_images.length;
+				var loaded			= 0;
+				 
+				$mybook_images.each(function(){
+					var $img 	= $(this);
+					var source	= $img.attr('src');
+					$('<img/>').load(function(){
+						++loaded;
+						if(loaded == cnt_images){
+							$loading.hide();
+							$bttn_next.show();
+							$bttn_prev.show();
+							$mybook.show().booklet({
+								name:               null,                            //  
+								width:              800,                             //  
+								height:             500,                             //   
+								speed:              600,                             //  
+								direction:          'LTR',                           //  
+								                           //  
+								next:               $bttn_next,          			//  
+								prev:               $bttn_prev,          			//  
+								                       
+							});
+							Cufon.refresh();
+						}
+					}).attr('src',source);
+				});
+				
+			});
+        </script>
+ 
+    </body>
+ 
+</html>

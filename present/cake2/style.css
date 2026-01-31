@@ -1,0 +1,382 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap");
+@import url("https://chinese-fonts-cdn.deno.dev/packages/cubic/dist/Cubic/result.css");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    font-size: 0.75vw;
+    --bg: #a5d7af; /* 草地背景色（清新绿，衬托奶油风） */
+    --anime-speed: 0.35s; /* 基础动画速度 */
+    /* 蛋糕主题色变量（动漫奶油风核心） */
+    --cake-base: #f0e0cf; /* 蛋糕底座浅棕 */
+    --cake-body: #f8f2da; /* 蛋糕体奶油浅黄 */
+    --cream: #ffccd5; /* 奶油粉（核心主色，帷幔同步使用） */
+    --cream-light: #ffe6ee; /* 奶油浅粉（帷幔高光/褶皱亮部） */
+    --cream-dark: #f8b8c8; /* 奶油深粉（帷幔阴影/褶皱暗部） */
+    --decor: #e74c3c; /* 蜡烛/斑点装饰红 */
+    --flame: #ff9500; /* 火焰主色橙红 */
+    --flame-light: #ff5722; /* 火焰渐变色深红 */
+}
+
+body {
+    height: 100vh;
+    background: var(--bg);
+    overflow: hidden; /* 隐藏滚动条，避免溢出 */
+    position: relative; /* 为绝对定位元素做基准 */
+}
+
+/* 核心：层叠透明动漫奶油风帷幔 - 通用样式（所有帷幔共用，格式不变） */
+.curtain {
+    position: absolute;
+    top: 0;
+    background: linear-gradient(90deg, 
+                                var(--cream-dark) 0%, var(--cream) 8%, var(--cream-dark) 16%,
+                                var(--cream) 24%, var(--cream-dark) 32%, var(--cream) 40%,
+                                var(--cream-dark) 48%, var(--cream) 56%, var(--cream-dark) 64%,
+                                var(--cream) 72%, var(--cream-dark) 80%, var(--cream) 88%,
+                                var(--cream-dark) 96%, var(--cream) 100%);
+    background-size: 30px 100%; /* 宽褶皱，贴合动漫柔和质感 */
+    border-bottom: 1rem solid var(--cream-light); /* 底边奶油浅粉高光 */
+    border-radius: 0 0 20rem 20rem; /* 超大圆角，动漫圆润感 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* 轻微投影，增强层叠感 */
+}
+
+/* 中间帷幔：居中定位，原有格式不变，被左右遮挡 */
+.center-curtain {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: skewX(-1deg) translateY(1px); /* 原有轻微倾斜，不变 */
+}
+
+/* 左侧帷幔：左对齐，向右倾斜，遮挡中间左侧部分，格式与中间一致 */
+.left-curtain {
+    left: 0;
+    border-radius: 0 0 20rem 0; /* 左侧专属圆角，贴合左边缘 */
+}
+
+/* 右侧帷幔：右对齐，向左倾斜，遮挡中间右侧部分，格式与中间一致 */
+.right-curtain {
+    right: 0;
+    border-radius: 0 0 0 20rem; /* 右侧专属圆角，贴合右边缘 */
+}
+
+/* 第一层帷幔：最后方、最大、最透明（背景层）- 左/中/右通用，大小格式不变 */
+.curtain-1 {
+    width: 42%;
+    height: 32vh;
+    opacity: 0.4; /* 最透明，铺垫氛围 */
+    z-index: 1; /* 最低层级，所有层最下方 */
+}
+/* 各方向第一层轻微错位，保持灵动性 */
+.center-curtain.curtain-1 { transform: skewX(-1deg) translateY(2px); }
+.left-curtain.curtain-1 { transform: skewX(2deg) translateY(2px); }
+.right-curtain.curtain-1 { transform: skewX(-2deg) translateY(2px); }
+
+/* 第二层帷幔：中间层、中等大小、中等透明度（过渡层）- 左/中/右通用，大小格式不变 */
+.curtain-2 {
+    width: 38%;
+    height: 28vh;
+    opacity: 0.6; /* 中等透明度，连接层次 */
+    z-index: 2; /* 中间层级，叠在第一层之上 */
+}
+/* 各方向第二层错位加大，避免重叠 */
+.center-curtain.curtain-2 { transform: skewX(-2deg) translateY(3px); }
+.left-curtain.curtain-2 { transform: skewX(4deg) translateY(4px); }
+.right-curtain.curtain-2 { transform: skewX(-4deg) translateY(4px); }
+
+/* 第三层帷幔：最前方、最小、最高不透明（前景层）- 左/中/右通用，大小格式不变 */
+.curtain-3 {
+    width: 34%;
+    height: 25vh;
+    opacity: 0.9; /* 高透明，保留奶油质感 */
+    z-index: 3; /* 最高帷幔层级，叠在最上方 */
+    border-bottom-width: 1.2rem; /* 稍粗高光，突出前景 */
+}
+/* 各方向第三层错位最明显，实现左右遮挡中间的核心效果 */
+.center-curtain.curtain-3 { transform: skewX(-3deg) translateY(5px); }
+.left-curtain.curtain-3 { transform: skewX(6deg) translateY(6px); }
+.right-curtain.curtain-3 { transform: skewX(-6deg) translateY(6px); }
+
+/* 蛋糕主体：初始隐藏，绑定三段核心动画（跳跃+回弹减缓+固定弹跳），无修改 */
+.cow {
+    width: 28rem;
+    height: 25rem;
+    position: absolute;
+    top: 58%;
+    left: 30%;
+    transform: translate(-50%, 45rem) rotate(0deg); /* 初始下沉隐藏 */
+    transform-origin: 50% 50%; /* 自身中心旋转，跳跃更自然 */
+    z-index: 10; /* 最高层级，避免被帷幔遮挡 */
+    animation: 
+        jump calc(var(--anime-speed) * 22) ease-in-out forwards, /* 主跳跃：7.7s */
+        bounce-slow 2s ease-out forwards 4.5s, /* 回弹减缓：2s稳定 */
+        bounce-fixed 1s ease-in-out infinite 6.5s; /* 固定小弹跳：无限循环 */
+}
+
+/* 蛋糕底座（伪元素实现，增强立体感），无修改 */
+.cow::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: var(--cake-base);
+    border-radius: 2rem 2rem 0 0;
+    border-bottom: 0.5rem solid #b8860b;
+}
+
+/* 蛋糕体+顶部奶油边（伪元素实现，与帷幔同色系），无修改 */
+.cow::after {
+    content: '';
+    position: absolute;
+    bottom: 55%;
+    left: 10%;
+    width: 80%;
+    height: 45%;
+    background: var(--cake-body);
+    border-radius: 1.5rem 1.5rem 0 0;
+    box-shadow: 0 -1rem var(--cream); /* 顶部奶油边，与帷幔呼应 */
+}
+
+/* 蜡烛容器：定位在蛋糕顶部居中，无修改 */
+.head {
+    position: absolute;
+    top: -25%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    width: 20rem;
+    height: 10rem;
+}
+
+/* 左侧蜡烛：伪元素实现，轻微旋转，无修改 */
+.head:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 2rem;
+    width: 2rem;
+    height: 8rem;
+    background: var(--decor);
+    border-radius: 0.5rem;
+    z-index: 12;
+    transform: rotate(-10deg);
+}
+
+/* 右侧蜡烛：伪元素实现，与左侧对称，无修改 */
+.head:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 2rem;
+    width: 2rem;
+    height: 8rem;
+    background: var(--decor);
+    border-radius: 0.5rem;
+    z-index: 12;
+    transform: rotate(10deg);
+}
+
+/* 左侧蜡烛火焰：精准贴合顶端，带光晕+跳动动画，无修改 */
+.face {
+    width: 3rem;
+    height: 5rem;
+    background: var(--flame);
+    border-radius: 50% 50% 30% 30%; /* 模拟火焰自然形态 */
+    box-shadow: 0 0 1rem 0.5rem rgba(255, 149, 0, 0.5); /* 火焰光晕 */
+    position: absolute;
+    top: -5rem;
+    left: 1.5rem;
+    z-index: 20; /* 火焰最高层级，突出焦点 */
+    animation: flame 0.3s alternate infinite;
+    opacity: 0;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+/* 右侧蜡烛火焰：与左侧对称，同步跳动，无修改 */
+.flame-right {
+    width: 3rem;
+    height: 5rem;
+    background: var(--flame);
+    border-radius: 50% 50% 30% 30%;
+    box-shadow: 0 0 1rem 0.5rem rgba(255, 149, 0, 0.5);
+    position: absolute;
+    top: -5rem;
+    right: 1.5rem;
+    z-index: 20;
+    animation: flame 0.3s alternate infinite;
+    opacity: 0;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+/* 蛋糕装饰斑点：圆形分布，增强层次感，无修改 */
+.leg {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    background: var(--decor);
+    border-radius: 50%; /* 圆润动漫感 */
+    z-index: 8; /* 低于蛋糕体，避免遮挡 */
+}
+.leg.f.l { bottom: 30%; left: 15%; }
+.leg.f.r { bottom: 30%; right: 15%; }
+.leg.b.l { bottom: 60%; left: 20%; }
+.leg.b.r { bottom: 60%; right: 20%; }
+
+/* 蛋糕顶部小装饰：奶油色+红色小球，与整体统一，无修改 */
+.tail {
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8rem;
+    height: 2rem;
+    background: var(--cream); /* 与帷幔主色一致 */
+    border-radius: 1rem;
+    z-index: 11; /* 低于蜡烛，高于蛋糕体 */
+}
+.tail:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -1rem;
+    transform: translateX(-50%);
+    width: 3rem;
+    height: 3rem;
+    background: var(--decor);
+    border-radius: 50%; /* 装饰小球，圆润质感 */
+}
+
+/* 首页按钮：延迟显示（回弹稳定后），奶油风配色，无修改 */
+.home-btn {
+    position: absolute;
+    left: 50%;
+    top: 75%; /* 下部分定位，避免重叠 */
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    background: var(--cream); /* 与帷幔同色，视觉统一 */
+    border: 0.3rem solid var(--cream-dark); /* 深奶油粉边框 */
+    padding: 1rem 2rem;
+    border-radius: 1rem; /* 圆角按钮，贴合动漫风 */
+    text-decoration: none;
+    transition: all 0.3s ease-in; /* 柔和悬停过渡 */
+    transform-origin: center;
+    z-index: 5;
+    opacity: 0; /* 初始透明，避免闪现 */
+    animation: btnAnim 1.5s ease-out forwards 6.5s; /* 6.5s后显形 */
+}
+/* 按钮悬停效果：奶油渐变+轻微放大，交互更生动，无修改 */
+.home-btn:hover {
+    background: linear-gradient(to bottom, var(--cream-light), var(--cream));
+    border-color: var(--cream);
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* 404文字：延迟显示（与按钮同步），白色醒目，无修改 */
+.text-box {
+    font-family: "Cabin Sketch", serif; /* 手写卡通字体，贴合动漫感 */
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    transform: translateX(-50%);
+    z-index: 5;
+    opacity: 0; /* 初始透明 */
+    animation: textAnim 1.5s ease-out forwards 6.5s; /* 6.5s后显形 */
+}
+.text-box h1 {
+    font-size: 15rem;
+    margin: 0;
+    line-height: 18rem;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.1); /* 轻微阴影，增强立体感 */
+}
+.text-box p {
+    width: 42rem;
+    font-size: 3rem;
+    line-height: 1;
+    margin: 0;
+    font-family:'Cubic 11';
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+}
+
+/* ---------------------- 所有核心动画定义（完全无修改） ---------------------- */
+/* 蛋糕主跳跃动画：隐藏→露出→空中跨越→落地（7.7s） */
+@keyframes jump {
+    0% { left: 30%; top: 58%; transform: translate(-50%, 45rem) rotate(0deg); }
+    15% { left: 30%; transform: translate(-50%, 25rem) rotate(0deg); }
+    30% { left: 30%; transform: translate(-50%, 10rem) rotate(3deg); }
+    45% { left: 45%; transform: translate(-50%, -15rem) rotate(-5deg); }
+    65% { left: 65%; transform: translate(-50%, -8rem) rotate(3deg); }
+    80% { left: 70%; transform: translate(-50%, 8rem) rotate(0deg); }
+    90% { left: 70%; transform: translate(-50%, 12rem) rotate(0deg); }
+    100% { left: 70%; top: 58%; transform: translate(-50%, 5rem) rotate(0deg); }
+}
+
+/* 回弹减缓动画：幅度从大到小，2s过渡到固定弹跳 */
+@keyframes bounce-slow {
+    0% { transform: translate(-50%, 5rem) rotate(0deg); }
+    25% { transform: translate(-50%, 8rem) rotate(0deg); }
+    50% { transform: translate(-50%, 3rem) rotate(0deg); }
+    75% { transform: translate(-50%, 6rem) rotate(0deg); }
+    100% { transform: translate(-50%, 4rem) rotate(0deg); }
+}
+
+/* 固定小幅度弹跳：回弹稳定后无限循环，轻盈动漫感 */
+@keyframes bounce-fixed {
+    0%,100% { transform: translate(-50%, 4rem) rotate(0deg); }
+    50% { transform: translate(-50%, 2.5rem) rotate(0deg); }
+}
+
+/* 火焰跳动动画：左右摆动+上下拉伸，双侧同步 */
+@keyframes flame {
+    0% {
+        transform: scaleY(1) rotate(-5deg);
+        background: var(--flame);
+        opacity: 1;
+    }
+    100% {
+        transform: scaleY(1.1) rotate(5deg);
+        background: var(--flame-light);
+        opacity: 1;
+    }
+}
+
+/* 首页按钮动画：旋转+缩放+淡入，6.5s后执行 */
+@keyframes btnAnim {
+    0% {
+        transform: translate(-50%, -50%) rotate(90deg) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+/* 404文字动画：弹动+缩放+淡入，与按钮同步 */
+@keyframes textAnim {
+    0% {
+        transform: translateX(-50%) translateY(20px) scale(0.9);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px) scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-50%) translateY(0) scale(1);
+        opacity: 1;
+    }
+}
