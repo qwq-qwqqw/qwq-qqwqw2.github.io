@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="Zh-CN">
+<head>
+	<meta charset="utf-8">
+    <title>WISH</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+	<div id="wrap">
+		<h1>WRITE A DREAM</h1>
+		<br><br><br>
+		<div id="form-wrap">
+			<form>
+				<p>HELLO 张越,</p>
+				<label for="email">Your Dream:</label>
+				<textarea name="message" id="message" value="Your Message"></textarea>
+				
+				<p>BEST,</p>
+				<label for="name">Name:</label>
+				<input type="text" name="name" value="" id="name" />
+				
+				<label for="email">Email:</label>
+				<input type="text" name="email" value="" id="email" />
+				
+				<input type="submit" name="submit" value="NOW, I SEND HAPPY!" />
+			</form>
+		</div>
+            <div class="jump-box">
+    <button class="jump-btn" id="jumpBtn">写下愿望后，记得来看流星雨</button>
+</div>
+	</div>
+
+    <script>
+// 页面加载完成后，执行回显逻辑
+window.onload = function() {
+    // 1. 获取所有表单元素（与HTML中的id一一对应）
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const messageTextarea = document.getElementById('message');
+
+    // 2. 回显历史数据：从localStorage读取值，有值则赋值给对应元素
+    if (localStorage.getItem('form_name')) {
+        nameInput.value = localStorage.getItem('form_name');
+    }
+    if (localStorage.getItem('form_email')) {
+        emailInput.value = localStorage.getItem('form_email');
+    }
+    if (localStorage.getItem('form_message')) {
+        messageTextarea.value = localStorage.getItem('form_message');
+    }
+
+    // 3. 绑定实时存储事件：输入内容时实时保存到localStorage
+    // 姓名输入框
+    nameInput.addEventListener('input', function() {
+        localStorage.setItem('form_name', this.value);
+    });
+    // 邮箱输入框
+    emailInput.addEventListener('input', function() {
+        localStorage.setItem('form_email', this.value);
+    });
+    // 留言文本域
+    messageTextarea.addEventListener('input', function() {
+        localStorage.setItem('form_message', this.value);
+    });
+};
+// 跳转逻辑（后台写死链接）
+window.onload = function() {
+    // ===== 仅需修改这里的链接 =====
+    const targetLink = "../skystar/skystar.html"; // 替换为你的目标链接（本地/网络均可）
+    // =============================
+
+    const jumpBtn = document.getElementById('jumpBtn');
+    jumpBtn.addEventListener('click', function() {
+        // 新标签页打开链接（不影响当前表单）
+        window.open(targetLink, '_blank');
+        // 若需在当前页面跳转，替换为：window.location.href = targetLink;
+    });
+};
+</script>
+  </body>
+</html>
